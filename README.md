@@ -1,0 +1,1 @@
+Let people manage inventory.
