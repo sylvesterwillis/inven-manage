@@ -6,7 +6,8 @@
     "jquery": "2.1.4",
     "react": "~0.13",
     "font-awesome": "4.3.0",
-    "less": "~2.5.1"
+    "less": "~2.5.1",
+    "underscore": "~1.8"
   },
   "resolutions": {
     "jquery": "~1.8.2"

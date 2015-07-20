@@ -6,6 +6,15 @@ module.exports = (function() {
     var itemApi = express.Router();
 
     itemApi.route('/items')
+    .get(function(req, res) {
+        Item.find(function(err, items) {
+            if(err) {
+                res.send(err);
+            }
+
+            res.json(items);
+        });
+    })
     // create a bear (accessed at POST http://localhost:8080/api/items)
     .post(function(req, res) {
             
@@ -23,15 +32,6 @@ module.exports = (function() {
             res.json(req.body);
         });
             
-    })
-    .get(function(req, res) {
-        Item.find(function(err, items) {
-            if(err) {
-                res.send(err);
-            }
-
-            res.json(items);
-        });
     });
 
     itemApi.route('/items/:item_id')
