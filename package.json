@@ -4,7 +4,12 @@
     "dependencies": {
         "express": "~4.0.0",
         "mongoose": "~3.6.13",
-        "body-parser": "~1.0.1",
-        "bower": "~1.4.1"
+        "body-parser": "~1.0.1"
+    },
+    "devDepandencies": {
+    	"bower": "~1.4.1",
+    	"browserify": "~11",
+    	"grunt": "~0.4",
+    	"grunt-babel": "~5.0"
     }
 }
