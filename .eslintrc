@@ -7,6 +7,8 @@
         "$": true,
         "_": true,
         "document": true,
+        "React": true,
+        "ReactBootstrap": true,
         "require": true
     },
 

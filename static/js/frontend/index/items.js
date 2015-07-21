@@ -1,7 +1,9 @@
 (function () {
     "use strict";
 
-    var React = require("react");
+    var Button = ReactBootstrap.Button,
+        Panel = ReactBootstrap.Panel,
+        Table = ReactBootstrap.Table;
 
     var Items = React.createClass({
         displayName: "Item List",
@@ -32,6 +34,7 @@
                     <tr>
                         <td>{item.name}</td>
                         <td>{item.quantityInStock}</td>
+                        <th><Button bsStyle='primary'>Primary</Button></th>
                     </tr>
                 );
             });
@@ -46,18 +49,19 @@
                 content = (
                     <div id="itemList">
                         <h2>Items</h2>
-                        <table>
+                        <Table bordered condensed hover striped>
                         <tr>
                             <th>Name</th>
                             <th>Quantity In Stock</th>
+                            <th></th>
                         </tr>
                         {itemNodes}
-                        </table>
+                        </Table>
                     </div>
                 );
             }
 
-            return content;
+            return <Panel>{content}</Panel>;
         }
     });
 
