@@ -5,6 +5,15 @@ module.exports = (function() {
     'use strict';
     var itemApi = express.Router();
 
+    var checkItemRequestData = function(req) {
+        if(!req.body.name || (req.body.quantityInStock !== 0 && !req.body.quantityInStock)) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
+
     itemApi.route('/items')
     .get(function(req, res) {
         Item.find(function(err, items) {
@@ -15,9 +24,12 @@ module.exports = (function() {
             res.json(items);
         });
     })
-    // create a bear (accessed at POST http://localhost:8080/api/items)
+    // create an item (accessed at POST http://localhost:8080/api/items)
     .post(function(req, res) {
-            
+        if(!checkItemRequestData(req)) {
+            res.status(400).send("Name or quantityInStock not found.");
+        }
+
         var item = new Item();      // create a new instance of the Item model
         item.name = req.body.name;  // set the item name (comes from the request)
         item.quantityInStock = req.body.quantityInStock;
@@ -25,11 +37,11 @@ module.exports = (function() {
 
         // save the item and check for errors
         item.save(function(err) {
-            if (err) {
+            if(err) {
                 res.send(err);
             }
 
-            res.json(req.body);
+            res.json(item);
         });
             
     });
@@ -46,6 +58,14 @@ module.exports = (function() {
     })
     .put(function(req, res) {
         Item.findById(req.params.item_id, function(err, item) {
+            if(!checkItemRequestData(req)) {
+                res.status(400).send("Name or quantityInStock not found.");
+            }
+
+            if(!req.params.item_id) {
+                res.status(400).send("Item ID is empty.");
+            }
+
             if(err) {
                 res.send(err);
             }
