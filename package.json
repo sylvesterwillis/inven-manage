@@ -20,6 +20,7 @@
     	"grunt-browserify": "~3.8",
         "grunt-eslint": "~16",
         "grunt-contrib-watch": "~0.6",
+        "node-inspector": "~0.12",
         "mocha": "~2.2",
         "supertest": "~1.0",
         "should": "~7.0"

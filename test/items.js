@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 describe('Item', function() {
     var url = 'localhost:8080/api/';
     var savedItemID = '';
+    var testChangingFile = '';
 
     before(function(done) {
         mongoose.connect('mongodb://localhost:27017/inven-manage-test');
@@ -26,15 +27,16 @@ describe('Item', function() {
                     throw err;
                 }
                 
-                res.should.have.status(200);
-                assert.equal(typeof res, 'object');
+                console.log("RES IS:" + res);
+                res.status.should.be.equal(200);
+                assert.equal(typeof res.body, 'object');
                 done();
             });
         });
 
         it('should be able to save an item', function(done) {
             var item = {
-                name: testItem,
+                name: "testItem",
                 quantityInStock: 1500
             };
 
@@ -46,8 +48,9 @@ describe('Item', function() {
                     throw err;
                 }
                 
-                res.should.have.status(200);
-                assert(res._id);
+                res.status.should.be.equal(200);
+                assert(res.body._id);
+                savedItemID = res.body._id;
                 done();
             });
         });
@@ -59,18 +62,50 @@ describe('Item', function() {
             .post('items')
             .send(item)
             .end(function(err, res) {
-                if (err) {
-                    throw err;
-                }
-                
-                res.should.have.status(400);
+                res.status.should.be.equal(400);
                 done();
             });
         });
     });
 
     describe('ItemChange', function() {
-        //TODO: Write tests for getting an item by ID, updating an item, 
-        // and deleting an item.
+        it('should be able to retreive an item by its id', function(done) {
+            request(url)
+            .get('items/' + savedItemID)
+            .end(function(err, res) {
+                if (err) {
+                    throw err;
+                }
+                
+                res.status.should.be.equal(200);
+                assert(res.body._id);
+                done();
+            });
+        });
+
+        it('should be able to update an item given its id', function(done) {
+            var item = {
+                name: "New Name",
+                quantityInStock: 1000
+            };
+
+            request(url)
+            .put('items/' + savedItemID)
+            .send(item)
+            .end(function(err, res) {
+                res.body.message.should.be.equal('Item updated!');
+                done();
+            });
+        });
+
+        it('should be able to delete an item given its id', function(done) {
+
+            request(url)
+            .delete('items/' + savedItemID)
+            .end(function(err, res) {
+                res.body.message.should.be.equal('Successfully deleted.');
+                done();
+            });
+        });
     });
 });
